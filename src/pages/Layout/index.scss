@@ -1,0 +1,53 @@
+.ant-layout {
+  height: 100%;
+}
+
+.header {
+  padding: 0;
+}
+
+$width: 70px;
+
+.logo {
+  margin-top: 8px;
+  width: $width;
+  height: 40px;
+  background: url('~@/assets/logo.png') no-repeat center / contain;
+}
+
+.logo-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #fff;
+  .name {
+    margin-left: $width;
+    font-size: 24px; /* Adjust the font size as needed */
+    letter-spacing: 2px; /* Add letter spacing for a modern look */
+  }
+}
+
+.layout-content {
+  overflow-y: auto;
+}
+
+.user-info {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 20px;
+  color: #fff;
+
+  .user-name {
+    margin-right: 20px;
+  }
+
+  .user-logout {
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.ant-layout-header {
+  padding: 0 !important;
+}
