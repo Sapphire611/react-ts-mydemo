@@ -1,10 +1,11 @@
 import { DiffOutlined, EditOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Layout, Menu, Popconfirm } from 'antd';
+import { Link, Outlet } from 'react-router-dom';
 import './index.scss';
 
 const { Header, Sider } = Layout;
 
-const GeekLayout = () => {
+const GeekLayout: React.FC = () => {
   return (
     <Layout>
       <Header className="header">
@@ -24,19 +25,20 @@ const GeekLayout = () => {
       <Layout>
         <Sider width={200} className="site-layout-background">
           <Menu mode="inline" theme="dark" defaultSelectedKeys={['1']} style={{ height: '100%', borderRight: 0 }}>
-            <Menu.Item icon={<HomeOutlined />} key="1">
-              数据概览
+            <Menu.Item icon={<HomeOutlined />} key="/">
+              <Link to="/">数据概览</Link>
             </Menu.Item>
-            <Menu.Item icon={<DiffOutlined />} key="2">
-              内容管理
+            <Menu.Item icon={<DiffOutlined />} key="/article">
+              <Link to="/article">内容管理</Link>
             </Menu.Item>
-            <Menu.Item icon={<EditOutlined />} key="3">
-              发布文章
+            <Menu.Item icon={<EditOutlined />} key="/publish">
+              <Link to="/publish">发布文章</Link>
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
-          内容
+          {/* 二级路由默认页面 */}
+          <Outlet />
         </Layout>
       </Layout>
     </Layout>

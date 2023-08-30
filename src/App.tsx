@@ -11,6 +11,9 @@ import Login from './pages/Login';
 // 再导入全局样式文件，防止样式覆盖！
 import { AuthRoute } from './components/AuthRoute';
 import './index.css';
+import Article from './pages/Article';
+import Home from './pages/Home';
+import Publish from './pages/Publish';
 
 function App() {
   return (
@@ -24,8 +27,12 @@ function App() {
               <AuthRoute>
                 <Layout />
               </AuthRoute>
-            }
-          />
+            }>
+            {/* 二级路由默认页面 */}
+            <Route index element={<Home />} />
+            <Route path="article" element={<Article />} />
+            <Route path="publish" element={<Publish />} />
+          </Route>
           {/* 不需要鉴权的路由 */}
           <Route path="/login" element={<Login />} />
         </Routes>

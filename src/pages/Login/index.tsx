@@ -9,7 +9,7 @@ interface LoginValues {
   remember: boolean;
 }
 
-const Login = () => {
+const Login: React.FC = () => {
   const navigate = useNavigate();
   const { loginStore } = useStore();
   const onFinish = async (values: LoginValues) => {
