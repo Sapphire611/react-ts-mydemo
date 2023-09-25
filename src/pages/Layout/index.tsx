@@ -2,10 +2,20 @@ import { DiffOutlined, EditOutlined, HomeOutlined, LogoutOutlined } from '@ant-d
 import { Layout, Menu, Popconfirm } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 import './index.scss';
-
+import { useStore } from '@/store';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite'
 const { Header, Sider } = Layout;
 
 const GeekLayout: React.FC = () => {
+  const { userStore } = useStore();
+
+  useEffect(() => {
+    try {
+      userStore.getUserInfo();
+    } catch {}
+  }, [userStore]);
+
   return (
     <Layout>
       <Header className="header">
@@ -14,7 +24,7 @@ const GeekLayout: React.FC = () => {
           <div className="name">React-ts-myDemo</div>
         </div>
         <div className="user-info">
-          <span className="user-name">user.name</span>
+          <span className="user-name">{userStore.userInfo.username}</span>
           <span className="user-logout">
             <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
               <LogoutOutlined /> 退出
@@ -45,4 +55,4 @@ const GeekLayout: React.FC = () => {
   );
 };
 
-export default GeekLayout;
+export default observer(GeekLayout);

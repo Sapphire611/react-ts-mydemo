@@ -1,11 +1,14 @@
 import React from 'react';
 import LoginStore from './login.Store';
+import UserStore from './user.Store';
 
 class RootStore {
   loginStore: LoginStore;
+  userStore: UserStore;
   // 组合模块
   constructor() {
     this.loginStore = new LoginStore();
+    this.userStore = new UserStore();
   }
 }
 
