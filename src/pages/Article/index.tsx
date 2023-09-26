@@ -16,16 +16,15 @@ const Article: React.FC = () => {
                 title: '首页',
               },
               {
-
                 title: '内容管理',
               },
             ]}
           />
         }>
-        <Form initialValues={{ status: null }}>
+        <Form initialValues={{ status: -1 }}>
           <Form.Item label="状态" name="status">
             <Radio.Group>
-              <Radio value={null}>全部</Radio>
+              <Radio value={-1}>全部</Radio>
               <Radio value={0}>草稿</Radio>
               <Radio value={1}>待审核</Radio>
               <Radio value={2}>审核通过</Radio>
@@ -41,7 +40,6 @@ const Article: React.FC = () => {
           </Form.Item>
 
           <Form.Item label="日期" name="date">
-            {/* 传入locale属性 控制中文显示*/}
             <RangePicker locale={locale}></RangePicker>
           </Form.Item>
 
