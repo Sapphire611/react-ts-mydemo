@@ -1,6 +1,6 @@
 // 登录模块
 import { request } from '@/utils';
-import { getToken, setToken } from '@/utils/token';
+import { clearToken, getToken, setToken } from '@/utils/token';
 import md5 from 'md5';
 import { makeAutoObservable } from 'mobx';
 
@@ -12,7 +12,7 @@ export default class LoginStore {
     makeAutoObservable(this);
   }
   // 登录
-  login = async (name: any, password: any) => {
+  login = async (name: string, password: string) => {
     const res = await request.post('/auth/login', {
       name,
       password: md5(password),
@@ -25,4 +25,9 @@ export default class LoginStore {
       return false;
     }
   };
+
+  logOut = () => {
+    this.token = '';
+    clearToken();
+  }
 }
