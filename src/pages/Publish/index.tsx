@@ -1,5 +1,7 @@
+import './index.scss';
+
 const Publish: React.FC = () => {
-  return <div>Publish</div>;
+  return <div className="publish">Publish</div>;
 };
 
 export default Publish;

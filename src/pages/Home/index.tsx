@@ -11,15 +11,6 @@ const Home: React.FC = () => {
         sData={[82, 60, 85]}
         title="三大框架满意度"
       />
-
-      <Bar
-        style={{ width: '500px', height: '400px' }}
-        xData={['vue', 'angular', 'react']}
-        sData={[85, 60, 95]}
-        title="三大框架使用度"
-      />
-      
-      {/* <StackedAreaChart /> */}
     </div>
   );
 };

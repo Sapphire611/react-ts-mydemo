@@ -1,36 +1,47 @@
+/* 根布局样式，设置整个布局的高度 */
 .ant-layout {
   height: 100%;
 }
 
+/* 顶部栏样式 */
 .header {
   padding: 0;
+  background-color: #001529; /* 自定义背景颜色 */
+  color: #fff; /* 自定义文字颜色 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-$width: 70px;
-
+/* Logo 样式 */
 .logo {
   margin-top: 8px;
-  width: $width;
+  width: 70px; /* 固定宽度 */
   height: 40px;
   background: url('~@/assets/logo.png') no-repeat center / contain;
 }
 
+/* Logo 文字样式 */
 .logo-text {
   position: absolute;
   left: 0;
   top: 0;
   color: #fff;
+
   .name {
-    margin-left: $width;
-    font-size: 24px; /* Adjust the font size as needed */
-    letter-spacing: 2px; /* Add letter spacing for a modern look */
+    margin-left: 70px; /* 与 Logo 宽度一致 */
+    font-size: 24px; /* 调整字体大小 */
+    letter-spacing: 2px; /* 添加字母间距以获得现代外观 */
   }
 }
 
+/* 内容区域样式 */
 .layout-content {
-  overflow-y: auto;
+  overflow-y: auto; /* 添加垂直滚动条 */
+  padding: 16px; /* 自定义内边距 */
 }
 
+/* 用户信息样式 */
 .user-info {
   position: absolute;
   right: 0;
@@ -48,6 +59,7 @@ $width: 70px;
   }
 }
 
+/* 顶部栏样式，消除默认内边距 */
 .ant-layout-header {
   padding: 0 !important;
 }
