@@ -1,5 +1,5 @@
 {
-  "name": "project-ts-liuliyi",
+  "name": "react-ts-mydemo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,6 +14,7 @@
     "antd": "^5.8.4",
     "axios": "^1.4.0",
     "crypto-js": "^4.1.1",
+    "echarts": "^5.4.3",
     "md5": "^2.3.0",
     "mobx": "^6.10.0",
     "mobx-react-lite": "^4.0.4",
