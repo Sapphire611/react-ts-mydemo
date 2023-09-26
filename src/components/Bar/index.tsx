@@ -1,23 +1,28 @@
 import * as echarts from 'echarts';
 import { useEffect, useRef } from 'react';
 
-function echartInit(node: HTMLElement | null | undefined, xData: Array<string>, sData: Array<number>, title: string) {
-  const myChart = echarts.init(node, null);
-  // 绘制图表
+function echartInit(
+  node: HTMLDivElement | null | undefined,
+  xData: Array<string>,
+  sData: Array<number>,
+  title: string
+) {
+  if (!node) {
+    // Handle the case where node does not exist
+    return null;
+  }
+
+  // Check if the chart instance already exists
+  let myChart = echarts.getInstanceByDom(node);
+
+  if (!myChart) {
+    // If the chart instance doesn't exist, create it
+    myChart = echarts.init(node, null);
+  }
+
+  // Update the chart options
   myChart.setOption({
-    color: [
-      //   '#c23531',
-      //   '#2f4554',
-      //   '#61a0a8',
-      //   '#d48265',
-      //   '#91c7ae',
-      //   '#749f83',
-      //   '#ca8622',
-      '#bda29a',
-      //   '#6e7074',
-      //   '#546570',
-      //   '#c4ccd3',
-    ],
+    color: ['#bda29a'],
     title: {
       text: title,
     },
@@ -34,27 +39,35 @@ function echartInit(node: HTMLElement | null | undefined, xData: Array<string>, 
       },
     ],
   });
+
+  return myChart;
 }
 
-interface Bar_I {
-  style: {
-    width: string;
-    height: string;
-  };
+interface BarProps {
+  style?: React.CSSProperties;
   xData: Array<string>;
   sData: Array<number>;
-  title: string;
+  title?: string;
 }
 
-function Bar(bar: Bar_I) {
-  // 1. 先不考虑传参问题  静态数据渲染到页面中
-  // 2. 把那些用户可能定制的参数 抽象props (1.定制大小 2.data 以及说明文字)
-  const { style, xData, sData, title } = bar;
-
-  const nodeRef = useRef(null);
+function Bar({ style, xData, sData, title = '' }: BarProps) {
+  const nodeRef = useRef<HTMLDivElement | null>(null);
+  const myChartRef = useRef<echarts.ECharts | null>(null);
 
   useEffect(() => {
-    echartInit(nodeRef.current, xData, sData, title);
+    // Initialize or update the chart
+    const chartInstance = echartInit(nodeRef.current, xData, sData, title);
+
+    if (chartInstance) {
+      myChartRef.current = chartInstance;
+    }
+
+    // Cleanup: Dispose of the chart instance when the component unmounts
+    return () => {
+      if (myChartRef.current) {
+        myChartRef.current.dispose();
+      }
+    };
   }, [xData, sData, title]);
 
   return <div ref={nodeRef} style={style}></div>;
