@@ -16,7 +16,7 @@ export default class LoginStore {
     const res = await request.post('/auth/login', {
       name,
       password: md5(password),
-    });
+    }); 
     if (res.data.access_token) {
       this.token = res.data.access_token;
       setToken(res.data.access_token);

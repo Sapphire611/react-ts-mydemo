@@ -40,17 +40,17 @@ const GeekLayout: React.FC = () => {
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
-          <Menu mode="inline" theme="dark" defaultSelectedKeys={['1']} style={{ height: '100%', borderRight: 0 }}>
-            <Menu.Item icon={<HomeOutlined />} key="/">
-              <Link to="/">数据概览</Link>
-            </Menu.Item>
-            <Menu.Item icon={<DiffOutlined />} key="/article">
-              <Link to="/article">内容管理</Link>
-            </Menu.Item>
-            <Menu.Item icon={<EditOutlined />} key="/publish">
-              <Link to="/publish">发布文章</Link>
-            </Menu.Item>
-          </Menu>
+          <Menu
+            mode="inline"
+            theme="dark"
+            defaultSelectedKeys={['1']}
+            style={{ height: '100%', borderRight: 0 }}
+            items={[
+              { key: '/', icon: <HomeOutlined />, label: <Link to="/">数据概览</Link> },
+              { key: '/article', icon: <DiffOutlined />, label: <Link to="/article">内容管理</Link> },
+              { key: '/publish', icon: <EditOutlined />, label: <Link to="/publish">发布文章</Link> },
+            ]}
+          />
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
           {/* 二级路由默认页面 */}

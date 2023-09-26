@@ -1,5 +1,5 @@
 // 用户模块
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, observable } from 'mobx';
 import { request } from '@/utils';
 
 interface userInfo {
@@ -10,13 +10,20 @@ interface userInfo {
 }
 
 class UserStore {
-  userInfo: userInfo = {};
+  @observable userInfo: userInfo = {};
+
+  @action setUserInfo = (newUserInfo: userInfo) => {
+    this.userInfo = newUserInfo;
+  };
+
   constructor() {
     makeAutoObservable(this);
   }
+
   async getUserInfo() {
     const res = await request.get('/auth/profile');
-    this.userInfo = res.data;
+    // this.userInfo = res.data;
+    this.setUserInfo(res.data);
   }
 }
 

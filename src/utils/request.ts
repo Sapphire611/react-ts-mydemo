@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from './token';
+import { clearToken, getToken } from './token';
 
 export const request = axios.create({
   baseURL: 'http://127.0.0.1:19061/api/v1',
@@ -9,11 +9,11 @@ export const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   config => {
-    const token = getToken()
+    const token = getToken();
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `Bearer ${token}`;
     }
-    return config;  
+    return config;
   },
   error => {
     return Promise.reject(error);
@@ -28,8 +28,12 @@ request.interceptors.response.use(
     return response;
   },
   error => {
-    // 超出 2xx 范围的状态码都会触发该函数。
-    // 对响应错误做点什么
+    if (error.response.status === 401) {
+      // 删除token
+      clearToken();
+      // 跳转到登录页
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );
