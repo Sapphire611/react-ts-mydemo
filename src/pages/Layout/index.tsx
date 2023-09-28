@@ -27,7 +27,7 @@ const GeekLayout: React.FC = () => {
       <Header className="header">
         <div className="logo" />
         <div className="logo-text">
-          <div className="name">React-ts-myDemo</div>
+          <div className="name">Photo CMS</div>
         </div>
         <div className="user-info">
           <span className="user-name">{userStore.userInfo.username}</span>
@@ -47,8 +47,8 @@ const GeekLayout: React.FC = () => {
             style={{ height: '100%', borderRight: 0 }}
             items={[
               { key: '/', icon: <HomeOutlined />, label: <Link to="/">数据概览</Link> },
-              { key: '/article', icon: <DiffOutlined />, label: <Link to="/article">内容管理</Link> },
-              { key: '/publish', icon: <EditOutlined />, label: <Link to="/publish">发布文章</Link> },
+              { key: '/article', icon: <DiffOutlined />, label: <Link to="/article">照片管理</Link> },
+              { key: '/publish', icon: <EditOutlined />, label: <Link to="/publish">发布照骗</Link> },
             ]}
           />
         </Sider>
