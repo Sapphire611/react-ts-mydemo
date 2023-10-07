@@ -67,7 +67,7 @@ const Photo: React.FC = () => {
 
   // 参数管理
   const page = 1;
-  const size = 2;
+  const size = 5;
   const sort = '-createdAt';
 
   const beginAt_init = moment().subtract(1, 'month').toDate();
@@ -76,6 +76,7 @@ const Photo: React.FC = () => {
     page: page,
     size: size,
     sort: sort,
+    pagination: false, // 前端自己分页就好了
     status: 'all',
     category: null,
     beginAt: beginAt_init,
@@ -109,6 +110,13 @@ const Photo: React.FC = () => {
     else if (values.status === 3) status = 'failed';
 
     setParams({ ...params, status, beginAt, endAt, category });
+  }
+
+  function pageChange(page: number) {
+    setParams({
+      ...params,
+      page,
+    });
   }
 
   return (
@@ -159,7 +167,7 @@ const Photo: React.FC = () => {
 
           <Form.Item>
             <Button type="primary" htmlType="submit" style={{ marginLeft: 80 }}>
-              筛选
+              搜索
             </Button>
           </Form.Item>
         </Form>
@@ -167,7 +175,17 @@ const Photo: React.FC = () => {
 
       <div />
       <Card title={`根据筛选条件共查询到  ${data.count} 条结果：`} style={{ width: '170vh' }}>
-        <Table rowKey="_id" columns={columns} dataSource={data.list} />
+        <Table
+          rowKey="_id"
+          columns={columns}
+          dataSource={data.list}
+          pagination={{
+            position: ['bottomRight'],
+            current: params.page,
+            pageSize: params.size,
+            onChange: pageChange,
+          }}
+        />
       </Card>
     </div>
   );
