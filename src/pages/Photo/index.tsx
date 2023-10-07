@@ -69,7 +69,7 @@ const Photo: React.FC = () => {
 
   // 发送接口请求
   useEffect(() => {
-    async function fetchArticleList() {
+    async function fetchPhotoList() {
       const res = await request.get('/photos', { params });
       const { docs, total } = res.data;
       setData({
@@ -77,37 +77,8 @@ const Photo: React.FC = () => {
         count: total,
       });
     }
-    fetchArticleList();
+    fetchPhotoList();
   }, [params]);
-
-  const datas = {
-    page: 1,
-    size: 100,
-    docs: [
-      {
-        _id: '651520ffee1ea4d0792e13fb',
-        name: 'test1',
-        description: 'nothing~',
-        fileUrl: 'https://th.bing.com/th/id/OIP.iY9EwHM8msHe9Km6GdzAFgHaHa?pid=ImgDet&rs=1',
-        category: '类别1',
-        status: 'success',
-        isPublished: false,
-        createdAt: '2023-09-28T06:45:19.756Z',
-        updatedAt: '2023-09-28T06:45:19.756Z',
-      },
-      {
-        _id: '651520a192752fad8645d6ba',
-        name: 'test2',
-        description: 'nothing~',
-        fileUrl: 'http://www.test.com/testName2.jpg',
-        category: '类别2',
-        status: 'auditing',
-        isPublished: false,
-        createdAt: '2023-09-28T06:43:45.147Z',
-        updatedAt: '2023-09-28T06:43:45.147Z',
-      },
-    ],
-  };
 
   return (
     <div className="photo">
