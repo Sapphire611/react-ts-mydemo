@@ -44,11 +44,19 @@ const GeekLayout: React.FC = () => {
             mode="inline"
             theme="dark"
             defaultSelectedKeys={['1']}
-            style={{ height: '100%', borderRight: 0 }}
+            style={{ height: '100%', borderRight: 0, fontSize: '16px' }}
             items={[
               { key: '/', icon: <HomeOutlined />, label: <Link to="/">数据概览</Link> },
-              { key: '/article', icon: <DiffOutlined />, label: <Link to="/article">照片管理</Link> },
-              { key: '/publish', icon: <EditOutlined />, label: <Link to="/publish">发布照骗</Link> },
+              {
+                key: '/article',
+                icon: <DiffOutlined />,
+                label: <Link to="/article">照片管理</Link>,
+              },
+              {
+                key: '/publish',
+                icon: <EditOutlined />,
+                label: <Link to="/publish">发布照骗</Link>,
+              },
             ]}
           />
         </Sider>

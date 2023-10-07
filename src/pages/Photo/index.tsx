@@ -2,39 +2,34 @@ import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Tag, Space, 
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import './index.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import request from '@/utils/request';
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
-const Article: React.FC = () => {
+const Photo: React.FC = () => {
   const columns = [
+    {
+      title: '封面',
+      dataIndex: 'fileUrl',
+      width: 120,
+      render: (cover: string) => {
+        return <img src={cover ?? null} width={80} height={60} alt="" />;
+      },
+    },
     {
       title: '照片名称',
       dataIndex: 'name',
       width: 220,
     },
     {
-      title: '链接',
-      dataIndex: 'fileUrl',
-      render: (fileUrl: string) => <Tag color="green">{fileUrl}</Tag>,
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createdAt',
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'createdAt',
+      title: '备注',
+      dataIndex: 'description',
     },
     {
       title: '是否发布',
       dataIndex: 'isPublished',
-      render: (data: string) => <Tag color="green">{data ? '是' : '否'}</Tag>,
-    },
-    {
-      title: '备注',
-      dataIndex: 'description',
-      // render: (_data: string) => <Tag color="green">{_data}</Tag>,
+      render: (data: string) => <Tag color={data ? 'green' : 'red'}>{data ? '是' : '否'}</Tag>,
     },
     {
       title: '操作',
@@ -49,28 +44,64 @@ const Article: React.FC = () => {
     },
   ];
 
+  const [categories, setCategories] = useState([]);
+  // 获取照片类别列表
   useEffect(() => {
-    // fetchData()
+    async function fetchCategories() {
+      const res = await request.post('/photos/category');
+      setCategories(res.data);
+    }
+    fetchCategories();
+  }, []);
+
+  const [data, setData] = useState({
+    list: [],
+    count: 0,
   });
 
-  const data = {
+  // 参数管理
+  const [params, setParams] = useState({
+    page: 1,
+    size: 10,
+    sort: '-createdAt',
+    pagination: true,
+  });
+
+  // 发送接口请求
+  useEffect(() => {
+    async function fetchArticleList() {
+      const res = await request.get('/photos', { params });
+      const { docs, total } = res.data;
+      setData({
+        list: docs,
+        count: total,
+      });
+    }
+    fetchArticleList();
+  }, [params]);
+
+  const datas = {
     page: 1,
     size: 100,
     docs: [
       {
         _id: '651520ffee1ea4d0792e13fb',
-        name: 'test2',
+        name: 'test1',
         description: 'nothing~',
-        fileUrl: 'testName1.jpg',
+        fileUrl: 'https://th.bing.com/th/id/OIP.iY9EwHM8msHe9Km6GdzAFgHaHa?pid=ImgDet&rs=1',
+        category: '类别1',
+        status: 'success',
         isPublished: false,
         createdAt: '2023-09-28T06:45:19.756Z',
         updatedAt: '2023-09-28T06:45:19.756Z',
       },
       {
         _id: '651520a192752fad8645d6ba',
-        name: 'test1',
+        name: 'test2',
         description: 'nothing~',
-        fileUrl: 'testName1.jpg',
+        fileUrl: 'http://www.test.com/testName2.jpg',
+        category: '类别2',
+        status: 'auditing',
         isPublished: false,
         createdAt: '2023-09-28T06:43:45.147Z',
         updatedAt: '2023-09-28T06:43:45.147Z',
@@ -79,7 +110,7 @@ const Article: React.FC = () => {
   };
 
   return (
-    <div className="article">
+    <div className="photo">
       <Card
         style={{ width: '170vh' }}
         title={
@@ -107,9 +138,16 @@ const Article: React.FC = () => {
           </Form.Item>
 
           <Form.Item label="频道" name="channel_id">
-            <Select placeholder="请选择文章频道" style={{ width: 150 }}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
+            <Select placeholder="请选择照片分类" style={{ width: 150 }}>
+              {/* <Option value="pet">宠物</Option>
+              <Option value="learning">学习</Option>
+              <Option value="programming">编程</Option>
+              <Option value="scenery">风景</Option> */}
+              {categories.map(item => (
+                <Option key={item} value={item}>
+                  {item}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -126,11 +164,11 @@ const Article: React.FC = () => {
       </Card>
 
       <div />
-      <Card title={`根据筛选条件共查询到 count 条结果：`} style={{ width: '170vh' }}>
-        <Table rowKey="_id" columns={columns} dataSource={data.docs} />
+      <Card title={`根据筛选条件共查询到  ${data.count} 条结果：`} style={{ width: '170vh' }}>
+        <Table rowKey="_id" columns={columns} dataSource={data.list} />
       </Card>
     </div>
   );
 };
 
-export default Article;
+export default Photo;
