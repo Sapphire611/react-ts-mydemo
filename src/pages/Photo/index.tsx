@@ -4,6 +4,7 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 import './index.scss';
 import { useEffect, useState } from 'react';
 import request from '@/utils/request';
+import moment from 'moment';
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -20,6 +21,11 @@ const Photo: React.FC = () => {
     {
       title: '照片名称',
       dataIndex: 'name',
+      width: 220,
+    },
+    {
+      title: '分类',
+      dataIndex: 'category',
       width: 220,
     },
     {
@@ -60,16 +66,26 @@ const Photo: React.FC = () => {
   });
 
   // 参数管理
+  const page = 1;
+  const size = 2;
+  const sort = '-createdAt';
+
+  const beginAt_init = moment().subtract(1, 'month').toDate();
+  const endAt_init = moment().add(1, 'month').toDate();
   const [params, setParams] = useState({
-    page: 1,
-    size: 10,
-    sort: '-createdAt',
-    pagination: true,
+    page: page,
+    size: size,
+    sort: sort,
+    status: 'all',
+    category: null,
+    beginAt: beginAt_init,
+    endAt: endAt_init,
   });
 
   // 发送接口请求
   useEffect(() => {
     async function fetchPhotoList() {
+      console.log(params);
       const res = await request.get('/photos', { params });
       const { docs, total } = res.data;
       setData({
@@ -79,6 +95,21 @@ const Photo: React.FC = () => {
     }
     fetchPhotoList();
   }, [params]);
+
+  function onSearch(values: any) {
+    const beginAt = values.date?.[0] ? moment(values.date?.[0]).toDate() : beginAt_init;
+    const endAt = values.date?.[1] ? moment(values.date?.[1]).toDate() : endAt_init;
+    const category = values.category ?? null;
+
+    let status: string = 'all';
+    if (values.status === 0) status = 'draft';
+    else if (values.status === -1) status = 'all';
+    else if (values.status === 1) status = 'auditing';
+    else if (values.status === 2) status = 'success';
+    else if (values.status === 3) status = 'failed';
+
+    setParams({ ...params, status, beginAt, endAt, category });
+  }
 
   return (
     <div className="photo">
@@ -97,7 +128,7 @@ const Photo: React.FC = () => {
             ]}
           />
         }>
-        <Form initialValues={{ status: -1 }}>
+        <Form initialValues={{ status: -1 }} onFinish={onSearch}>
           <Form.Item label="状态" name="status">
             <Radio.Group>
               <Radio value={-1}>全部</Radio>
@@ -108,7 +139,7 @@ const Photo: React.FC = () => {
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item label="频道" name="channel_id">
+          <Form.Item label="频道" name="category">
             <Select placeholder="请选择照片分类" style={{ width: 150 }}>
               {/* <Option value="pet">宠物</Option>
               <Option value="learning">学习</Option>
