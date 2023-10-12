@@ -33,6 +33,11 @@ const Photo: React.FC = () => {
       dataIndex: 'description',
     },
     {
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      render: (data: string) => <span>{moment().format('YYYY-MM-DD')}</span>,
+    },
+    {
       title: '是否发布',
       dataIndex: 'isPublished',
       render: (data: string) => <Tag color={data ? 'green' : 'red'}>{data ? '是' : '否'}</Tag>,
@@ -78,7 +83,7 @@ const Photo: React.FC = () => {
     sort: sort,
     pagination: false, // 前端自己分页就好了
     status: 'all',
-    category: null,
+    category: 'all',
     beginAt: beginAt_init,
     endAt: endAt_init,
   });
@@ -100,7 +105,7 @@ const Photo: React.FC = () => {
   function onSearch(values: any) {
     const beginAt = values.date?.[0] ? moment(values.date?.[0]).toDate() : beginAt_init;
     const endAt = values.date?.[1] ? moment(values.date?.[1]).toDate() : endAt_init;
-    const category = values.category ?? null;
+    const category = values.category ?? 'all';
 
     let status: string = 'all';
     if (values.status === 0) status = 'draft';
@@ -149,10 +154,9 @@ const Photo: React.FC = () => {
 
           <Form.Item label="频道" name="category">
             <Select placeholder="请选择照片分类" style={{ width: 150 }}>
-              {/* <Option value="pet">宠物</Option>
-              <Option value="learning">学习</Option>
-              <Option value="programming">编程</Option>
-              <Option value="scenery">风景</Option> */}
+              <Option key="all" value="all">
+                全部
+              </Option>
               {categories.map(item => (
                 <Option key={item} value={item}>
                   {item}
