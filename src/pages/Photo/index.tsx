@@ -47,7 +47,12 @@ const Photo: React.FC = () => {
       render: (data: any) => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={() => (window.location.href = `/publish?id=${data._id}`)}
+            />
             <Popconfirm title="确认删除该条文章吗?" onConfirm={() => delArticle(data)} okText="确认" cancelText="取消">
               <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
             </Popconfirm>
