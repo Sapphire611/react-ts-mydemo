@@ -1,4 +1,4 @@
-import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Tag, Space, Table } from 'antd';
+import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Tag, Space, Table, Popconfirm } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import './index.scss';
@@ -48,7 +48,9 @@ const Photo: React.FC = () => {
         return (
           <Space size="middle">
             <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
+            <Popconfirm title="确认删除该条文章吗?" onConfirm={() => delArticle(data)} okText="确认" cancelText="取消">
+              <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
+            </Popconfirm>
           </Space>
         );
       },
@@ -123,6 +125,18 @@ const Photo: React.FC = () => {
       page,
     });
   }
+
+  // 删除回调
+  const delArticle = async (data: any) => {
+    console.log(data);
+    await request.delete(`/photos/${data._id}`);
+    // 更新列表
+    setParams({
+      ...params,
+      page: 1,
+      size: 10,
+    });
+  };
 
   return (
     <div className="photo">
